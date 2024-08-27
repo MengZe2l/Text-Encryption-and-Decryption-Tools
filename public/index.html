@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本加解密工具</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>文本加解密工具</h1>
+        <form id="crypto-form">
+            <div class="mb-3">
+                <label for="key" class="form-label">密钥</label>
+                <input type="text" class="form-control" id="key" name="key" placeholder="输入密钥或点击生成随机密钥" required>
+                <button type="button" class="btn btn-secondary mt-2" onclick="generateKey()">生成随机密钥</button>
+            </div>
+            <div class="mb-3">
+                <label for="text" class="form-label">文本</label>
+                <textarea class="form-control" id="text" name="text" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+                <button type="button" onclick="submitForm('encrypt')" class="btn btn-primary">加密</button>
+                <button type="button" onclick="submitForm('decrypt')" class="btn btn-secondary">解密</button>
+            </div>
+            <div class="mb-3">
+                <label for="result" class="form-label">结果</label>
+                <textarea class="form-control" id="result" rows="4" readonly></textarea>
+            </div>
+        </form>
+    </div>
+    <script>
+        function generateKey() {
+            const key = Array.from(crypto.getRandomValues(new Uint8Array(32)))
+                             .map(b => b.toString(16).padStart(2, '0'))
+                             .join('');
+            document.getElementById('key').value = key;
+        }
+
+        function submitForm(action) {
+            $.ajax({
+                type: 'POST',
+                url: 'process.php',
+                data: {
+                    key: $('#key').val(),
+                    text: $('#text').val(),
+                    action: action
+                },
+                success: function(response) {
+                    $('#result').val(response.result);
+                },
+                error: function() {
+                    $('#result').val('请求失败');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

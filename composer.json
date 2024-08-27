@@ -1,0 +1,21 @@
+{
+    "name": "memgze2/TextAes",
+    "description": "PHP编写的数据加解密工具，使用 AES-256 算法进行加密和解密。",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MengZe2l",
+            "email": "i@mengze2.cn"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-openssl": "*"
+    }
+}
