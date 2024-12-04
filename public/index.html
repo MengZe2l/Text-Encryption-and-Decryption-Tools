@@ -4,29 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文本加解密工具</title>
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1>文本加解密工具</h1>
+<body class="bg-gray-100">
+    <div class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded shadow">
+        <h1 class="text-2xl font-bold mb-6 text-center">文本加解密工具</h1>
         <form id="crypto-form">
-            <div class="mb-3">
-                <label for="key" class="form-label">密钥</label>
-                <input type="text" class="form-control" id="key" name="key" placeholder="输入密钥或点击生成随机密钥" required>
-                <button type="button" class="btn btn-secondary mt-2" onclick="generateKey()">生成随机密钥</button>
+            <div class="mb-4">
+                <label for="key" class="block text-gray-700 font-medium mb-2">密钥</label>
+                <div class="flex">
+                    <input type="text" class="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="key" name="key" placeholder="输入密钥或点击生成随机密钥" required>
+                    <button type="button" class="ml-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded" onclick="generateKey()">生成随机密钥</button>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="text" class="form-label">文本</label>
-                <textarea class="form-control" id="text" name="text" rows="4" required></textarea>
+            <div class="mb-4">
+                <label for="text" class="block text-gray-700 font-medium mb-2">文本</label>
+                <textarea class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="text" name="text" rows="4" placeholder="输入需要加密或解密的文本" required></textarea>
             </div>
-            <div class="mb-3">
-                <button type="button" onclick="submitForm('encrypt')" class="btn btn-primary">加密</button>
-                <button type="button" onclick="submitForm('decrypt')" class="btn btn-secondary">解密</button>
+            <div class="mb-4 flex space-x-2">
+                <button type="button" onclick="submitForm('encrypt')" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded">
+                    加密
+                </button>
+                <button type="button" onclick="submitForm('decrypt')" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded">
+                    解密
+                </button>
             </div>
-            <div class="mb-3">
-                <label for="result" class="form-label">结果</label>
-                <textarea class="form-control" id="result" rows="4" readonly></textarea>
+            <div class="mb-4">
+                <label for="result" class="block text-gray-700 font-medium mb-2">结果</label>
+                <textarea class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-50" id="result" rows="4" readonly></textarea>
             </div>
         </form>
     </div>
@@ -48,7 +54,11 @@
                     action: action
                 },
                 success: function(response) {
-                    $('#result').val(response.result);
+                    if(response.result !== undefined){
+                        $('#result').val(response.result);
+                    } else {
+                        $('#result').val('无效的响应');
+                    }
                 },
                 error: function() {
                     $('#result').val('请求失败');
